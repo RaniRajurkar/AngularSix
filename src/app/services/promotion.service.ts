@@ -19,7 +19,7 @@ export class PromotionService {
       return PROMOTIONS.filter((promo)=>{promo.id==id})[0];
   }
   getFeaturedPromotion():Promotion{
-    return PROMOTIONS.filter((dish)=>dish.featured)[0];
+    return PROMOTIONS.filter((promo)=>promo.featured)[0];
 
   }
 }

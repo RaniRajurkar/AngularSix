@@ -1,7 +1,11 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DISHES } from '../shared/dishes';
 import { Variable } from '@angular/compiler/src/render3/r3_ast';
 import { Dish } from '../shared/dish';
+import { Params,ActivatedRoute, ParamMap} from '@angular/router';
+import  {Location} from '@angular/common';
+import {DishService} from '../services/dish.service';
+import { LElementNode } from '@angular/core/src/render3/interfaces/node';
 
 @Component({
   selector: 'app-dishdetail',
@@ -12,14 +16,32 @@ export class DishdetailComponent implements OnInit {
 
 
   //dishes: DISH[] = DISHES;
-  @Input()
-    dish:Dish;
+  // @Input()
+  
+
+  dish:Dish;
+ 
  // selectedDish: Dish = DISHES[0];
   // selectcommentDish:DISH= DISHES[0];
   
-  constructor() { }
+  constructor(private dishService:DishService,
+    private route:ActivatedRoute,
+    private location:Location
+    ) { 
+
+    }
+
 
   ngOnInit() {
+
+    const id = this.route.snapshot.params.get('id');
+
+      this.dish = this.dishService.getDish(id);
+  }
+
+  goBack():void{
+   this.location.back();
+
   }
 
 }
