@@ -7,6 +7,9 @@ import  {Location} from '@angular/common';
 import {DishService} from '../services/dish.service';
 import { LElementNode } from '@angular/core/src/render3/interfaces/node';
 
+import { switchMap } from 'rxjs/operators';
+
+
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
@@ -20,6 +23,9 @@ export class DishdetailComponent implements OnInit {
   
 
   dish:Dish;
+  dishIds:string[];
+  prev:string;
+  next:string;
  
  // selectedDish: Dish = DISHES[0];
   // selectcommentDish:DISH= DISHES[0];
@@ -34,9 +40,12 @@ export class DishdetailComponent implements OnInit {
 
   ngOnInit() {
 
-    const id = this.route.snapshot.params['id'];
+  //  const id = this.route.params['id'];
   
-     this.dishService.getDish(id).subscribe(dish=>this.dish=this.dish);;
+     //this.dishService.getDish(id).subscribe(dish=>this.dish=this.dish);;
+     this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+     this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
+     .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
   }
 
   goBack():void{
@@ -44,4 +53,9 @@ export class DishdetailComponent implements OnInit {
 
   }
 
+  setPrevNext(dishId: string) {
+    const index = this.dishIds.indexOf(dishId);
+    this.prev = this.dishIds[(this.dishIds.length + index - 1) % this.dishIds.length];
+    this.next = this.dishIds[(this.dishIds.length + index + 1) % this.dishIds.length];
+  }
 }
