@@ -17,6 +17,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 
 import { AppComponent } from './app.component';
@@ -80,6 +81,7 @@ import { Ng5SliderModule } from 'ng5-slider';
   providers: [
     DishService,
     PromotionService,
+    ProcessHTTPMsgService,
     LeaderService,
     {
       provide:'BaseURL',useValue: baseURL

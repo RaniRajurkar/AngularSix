@@ -40,6 +40,7 @@ export class DishdetailComponent implements OnInit {
  // inputGiven:boolean=false;
 
   comment: Comment;
+  errMess: string;
   
  // selectedDish: Dish = DISHES[0];
   // selectcommentDish:DISH= DISHES[0];
@@ -123,7 +124,7 @@ if(control && control.dirty && !control.valid){
   //  const id = this.route.params['id'];
   
      //this.dishService.getDish(id).subscribe(dish=>this.dish=this.dish);;
-    this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+    this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds, errmess => this.errMess = <any>errmess);
     // this.dishService.getDishIds().subscribe(function(dishIds) {this.dishIds = dishIds} );
      this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
