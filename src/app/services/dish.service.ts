@@ -4,7 +4,7 @@ import {DISHES} from '../shared/dishes';
 import { resolve } from 'url';
 import {Observable,of, from} from 'rxjs';
 import { delay} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {baseURL} from '../shared/baseurl';
 import {map, catchError} from 'rxjs/operators';
 
@@ -61,5 +61,16 @@ getDishIds(): Observable<string[]|any>{
   // return this.getDishes().pipe(map(function(dishes){dishes.map(function(dish){
   //   dish.id;
   // })}))};
+  }
+
+  putDish(dish: Dish): Observable<Dish> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    return this.http.put<Dish>(baseURL + 'dishes/' + dish.id, dish, httpOptions)
+      .pipe(catchError(this.processHTTPMsgService.handleError));
+
   }
 }
