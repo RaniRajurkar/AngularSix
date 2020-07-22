@@ -49,7 +49,7 @@ return this.http.get<Dish[]>(baseURL+'dishes') .pipe(catchError(this.processHTTP
     // return of(DISHES.filter(function(dish){
     //   dish.featured
     // })[0]);
-    return this.http.get<Dish>(baseURL+'dishes/'+'dishes?featured=true')
+    return this.http.get<Dish>(baseURL+'dishes?featured=true')
     .pipe(map(dishes=>dishes[0])).pipe(catchError(this.processHTTPMsgService.handleError));
   }
 

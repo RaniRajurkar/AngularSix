@@ -13,26 +13,16 @@ import {Options} from 'ng5-slider';
 import { switchMap } from 'rxjs/operators';
 import {Feedback,ContactType} from '../shared/feedback'
 import { Comment } from '../shared/comment';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { visibility ,expand,flyInOut} from '../animations/app.animation';
+
 
 
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
   styleUrls: ['./dishdetail.component.scss'],
-  animations: [
-    trigger('visibility', [
-        state('shown', style({
-            transform: 'scale(1.0)',
-            opacity: 1
-        })),
-        state('hidden', style({
-            transform: 'scale(0.5)',
-            opacity: 0
-        })),
-        transition('* => *', animate('0.5s ease-in-out'))
-    ])
-  ]
+  animations: [visibility(),flyInOut(),
+  expand()]
 })
 export class DishdetailComponent implements OnInit {
 

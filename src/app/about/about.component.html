@@ -60,7 +60,7 @@
     
     <div fxLayout="column" fxLayout.gt-sm="row">
       
-        <div fxFlex="100"  *ngIf="leaders" >
+        <div fxFlex="100"  *ngIf="leaders"  [@expand]>
         
           <mat-list *ngFor="let leader of leaders"  >
            
