@@ -1,9 +1,11 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild ,Inject} from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from '@angular/forms';
 import { from } from 'rxjs';
 import {Feedback,ContactType} from '../shared/feedback';
+import {FeedbackService} from '../services/feedback.service';
 
-import { flyInOut } from '../animations/app.animation';
+import { flyInOut,expand } from '../animations/app.animation';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-contact',
@@ -14,7 +16,8 @@ import { flyInOut } from '../animations/app.animation';
     'style': 'display: block;'
     },
   animations: [
-    flyInOut()
+    flyInOut(),
+    expand()
   ]
 })
 export class ContactComponent implements OnInit {
@@ -22,9 +25,37 @@ export class ContactComponent implements OnInit {
 
   feedbackForm:FormGroup;
   feedback:Feedback;
+  feedbackCopy:Feedback;
   contactType=ContactType;
+  submitted:boolean=false;
+  firstname:String;
+  lastname:String;
+  email:String;
+  contacttype:String;
+  message:String;
+  agree:boolean;
+  telnum:number;
+  hideForm: boolean;
+  hideResponse: boolean;
+  hideSpinner: boolean;
+
+ 
+  errMessage:String;
+  msg:String;
   @ViewChild('fform') feedbackFormDirective;
 
+  showSpinner = false;
+
+  loadData() {
+    this.showSpinner = true;
+    setTimeout(() => {
+      if(this.feedback!=null){
+        this.showSpinner = false;
+      }
+     
+    }, 5000);
+   
+  }
     formErrors={
       'firstname':'',
       'lastname':'',
@@ -52,13 +83,18 @@ export class ContactComponent implements OnInit {
         'email':         'Email not in valid format.'
       },
     };
+
   
 
-  constructor(private fb:FormBuilder) {
+  constructor(private feedbackService:FeedbackService, private route:ActivatedRoute,private fb:FormBuilder,@Inject('BaseURL') private BaseURL) {
     this.createForm();
    }
 
   ngOnInit() {
+    this.hideForm = false
+    this.hideSpinner = true
+    this.hideResponse = true
+
   }
 createForm():void{
 
@@ -79,7 +115,32 @@ createForm():void{
 
 onSubmit(){
   this.feedback =this.feedbackForm.value;
-  console.log(this.feedback);
+  this.hideForm= true;
+  this.hideSpinner=false;
+ // this.submitted=true;
+ this.firstname=this.feedback.firstname;
+ this.lastname=this.feedback.lastname;
+ this.email=this.feedback.email;
+ this.contacttype=this.feedback.contacttype;
+ this.agree=this.feedback.agree;
+ this.message=this.feedback.message;
+ this.telnum=this.feedback.telnum;
+ //   this.displayMessage('Saved ');
+ // console.log(this.feedback);
+
+ this.feedbackService.submitFeedback(this.feedback)
+ .subscribe(feedback => {
+ this.feedback = feedback; this.feedbackCopy=feedback; 
+this.hideSpinner=true;
+this.hideResponse = false;
+ setTimeout(() => {
+  this.hideForm = false;
+  this.hideResponse = true;}, 5000);
+},
+errmess => { this.feedback = null;  this.feedbackCopy = null; this.errMessage = <any>errmess; });
+
+
+
   this.feedbackForm.reset({
     firstname:'',
     lastname:'',
@@ -90,7 +151,11 @@ onSubmit(){
   });
   this.feedbackFormDirective.resetForm();
 }
-
+ /** Display a message briefly, then remove it. */
+    displayMessage(msg: string) {
+       this.msg = msg;
+       setTimeout(() => this.msg = '', 1500);
+    }
 onValueChanged(data?:any){
 
    if(!this.feedbackForm){ return;  }

@@ -32,6 +32,7 @@ import { ContactComponent } from './contact/contact.component';
 
 
 import {DishService } from './services/dish.service';
+import {FeedbackService} from './services/feedback.service';
   import { from } from 'rxjs';
 import {AppRoutingModule } from './app-routing/app-routing.module';
 import {PromotionService} from './services/promotion.service';
@@ -82,6 +83,7 @@ import { HighlightDirective } from './directives/highlight.directive';
   ],
   providers: [
     DishService,
+    FeedbackService,
     PromotionService,
     ProcessHTTPMsgService,
     LeaderService,

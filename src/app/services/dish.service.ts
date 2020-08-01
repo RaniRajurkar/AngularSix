@@ -61,6 +61,7 @@ getDishIds(): Observable<string[]|any>{
   // return this.getDishes().pipe(map(function(dishes){dishes.map(function(dish){
   //   dish.id;
   // })}))};
+  
   }
 
   putDish(dish: Dish): Observable<Dish> {

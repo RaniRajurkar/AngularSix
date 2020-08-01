@@ -95,7 +95,7 @@ export class DishdetailComponent implements OnInit {
  
       this.commentForm.valueChanges.subscribe(data=>this.onValueChanged(data));
  
-      this.onValueChanged();
+    //  this.onValueChanged();
    
  }
  
@@ -163,9 +163,10 @@ if(control && control.dirty && !control.valid){
 onSubmit(){
   this.comment = this.commentForm.value;
   this.comment.date = Date.now().toString();
+  
   this.dishcopy.comments.push(this.comment);
   this.dishService.putDish(this.dishcopy)
-  .subscribe(dish => {
+  .subscribe(dish => {  
     this.dish = dish; this.dishcopy = dish;
   },
   errmess => { this.dish = null; this.dishcopy = null; this.errMess = <any>errmess; });

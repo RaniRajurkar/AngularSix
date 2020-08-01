@@ -30,12 +30,13 @@
           <a mat-raised-button href="mailto:confusion@food.net"><i class="fa fa-envelope-o"></i> Email</a>
         </div>
         </div>
-      <div fxFlex="40">
+      <div fxFlex="40"  >
         <h4>Map of our Location</h4>
       </div>
     </div>
   </div>
-  <div fxFlex fxFlexOffset="20px" class="form-size">
+  <!-- <div fxFlex fxFlexOffset="20px" class="form-size"  [hidden]="submitted"> -->
+    <div fxFlex fxFlexOffset="20px" class="form-size"  [hidden]="hideForm" [@expand]>
 <h3> Send us your feedback</h3>
 <p>
   {{feedbackForm.value|json}}  {{feedbackForm.status|json}}
@@ -90,7 +91,60 @@
       <textarea matInput formControlName="message" placeholder="Your Feedback" rows=12></textarea>
     </mat-form-field>
   </p>
-  <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid ">Submit</button>
+  
+  <button type="submit"   mat-button class="background-primary text-floral-white"  [disabled]="feedbackForm.invalid ">Submit</button>
 </form>
   </div>
+ <!-- <div fxFlex *ngIf="showSpinner"> -->
+  <div fxFlex [hidden]="hideSpinner">
+    <mat-spinner>
+    
+    </mat-spinner>
+    <h4>Submitting.  .  . Please wait</h4>
+    
+    </div>  
+    <!-- <div fxFlex fxFlexOffset="20px" class="form-size"  *ngIf="!showSpinner"> -->
+      <div fxFlex fxFlexOffset="20px" class="form-size"  [hidden]="hideResponse" [@expand]>
+      <!-- <div [hidden]="!submitted"> -->
+        <div>
+      <h3> Send us your feedback</h3>
+      <h3> Your Submission</h3>
+      <div class="row">
+        <div class="col-xs-3">First Name: {{firstname}}</div>
+        <br>
+       
+      </div>
+     <div class="row">
+        <div class="col-xs-3">Last name: {{ lastname }}</div>
+       <br>
+      </div> 
+      <div class="row">
+        <div class="col-xs-3">Tel. Number: {{ telnum }}</div>
+        <br>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Email: {{ email }}</div>
+        <br>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Contact You?: {{ agree }}</div>
+        <br>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">How?: {{contacttype}}</div>
+        <br>
+      </div> 
+      <div class="row">
+        <div class="col-xs-3">Feedback: {{message}}</div>
+        <br>
+      </div> 
+    </div>
+  </div>
+    <!-- <div fxFlex   ngIf="submitted">
+      <mat-spinner>
+      
+      </mat-spinner>
+      <h4>Submitting.  .  . Please wait</h4>
+      
+      </div>  -->
 </div>
